@@ -3,7 +3,10 @@ import {setMetaTags} from './meta';
 
 const basePath = `${window.location.origin}${window.location.pathname}`;
 
-const getCurrentHash = () => decodeURI(window.location.hash.slice(1));
+const getCurrentHash = () => {
+  if (typeof window !== 'undefined') 
+    decodeURI(window.location.hash.slice(1))
+};
 
 export const getHash = ({manager}) => {
   const {basePath} = manager;
