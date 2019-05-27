@@ -13,7 +13,9 @@ export const scrollTo = (options) => {
 }
 
 export const getScrollTop = () => {
-  return document.body.scrollTop || document.documentElement.scrollTop
+  if (typeof document !== 'undefined') {
+    return document.body.scrollTop || document.documentElement.scrollTop
+  }
 }
 
 // get vertical offsets of element, taking scrollTop into consideration

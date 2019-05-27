@@ -3,14 +3,14 @@ import arrayFrom from 'array-from';
 const getMetaTagName = (item) => item.getAttribute('name') || item.getAttribute('property');
 
 const getMeta = (metaName) => {
-  const metas = document.getElementsByTagName('meta');
+  const metas = typeof document !== 'undefined' ? document.getElementsByTagName('meta'): '';
   return arrayFrom(metas).find(item => getMetaTagName(item) === metaName);
 }
 
 export const setMetaTags = (metaTagsList = {}) => {
   const {title, ...metaTags} = metaTagsList;
 
-  if (title) {
+  if (typeof document !== 'undefined' && title) {
     document.title = title;
   }
 
@@ -31,10 +31,12 @@ export const setMetaTags = (metaTagsList = {}) => {
       currentTag.setAttribute('content', metaTags[tagName]);
     } else {
       // create a meta tag
-      const meta = document.createElement('meta');
-      meta.name = tagName;
-      meta.setAttribute('content', metaTags[tagName]);
-      document.getElementsByTagName('head')[0].appendChild(meta);
+      if (typeof document !== 'undefined') {
+        const meta = document.createElement('meta');
+        meta.name = tagName;
+        meta.setAttribute('content', metaTags[tagName]);
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
     }
   });
 
@@ -45,9 +47,11 @@ export const getDefaultMetaTags = (metaTags) => {
     return metaTags;
   }
 
-  const metas = document.getElementsByTagName('meta');
+  if (typeof document !== 'undefined') {
+    const metas = document.getElementsByTagName('meta');
 
-  return arrayFrom(metas).reduce((acc, item) => {
-    return {...acc, [getMetaTagName(item)]: item.getAttribute('content')}
-  }, { title: document.title });
+    return arrayFrom(metas).reduce((acc, item) => {
+      return {...acc, [getMetaTagName(item)]: item.getAttribute('content')}
+    }, { title: document.title });
+  }
 }
