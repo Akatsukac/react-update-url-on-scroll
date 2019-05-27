@@ -28,7 +28,7 @@ class Manager {
     this.forceHashUpdate = debounce(this.handleHashChange, 1);
 
     this.basePath = this.getBasePath();
-    this.basePathName = window.location.pathname;
+    this.basePathName = typeof window !== 'undefined' ? window.location.pathname : '';
     this.imagesAreLoaded = false;
 
     this.resetDefaultMetaTags();
@@ -38,7 +38,8 @@ class Manager {
       const fireEvent = () => {
         if (!eventDispatched) {
           const event = new Event(EVENT_IMAGES_LOADED);
-          window.dispatchEvent(event);
+          if (typeof window !== 'undefined') 
+            window.dispatchEvent(event);
         }
         eventDispatched = true;
       }
@@ -73,7 +74,7 @@ class Manager {
       }
     });
 
-    if (window.history && window.history.pushState) {
+    if (typeof window !== 'undefined' && window.history && window.history.pushState) {
       window.addEventListener('popstate', () => {
         if (this.config.reloadOnGoingBack) {
           window.location.reload();
@@ -84,7 +85,7 @@ class Manager {
   }
 
   getBasePath = (anchors) => {
-    let newBasePath = `${window.location.origin}${window.location.pathname}`.replace(/\/$/, '');
+    let newBasePath = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}`.replace(/\/$/, '') : '';
 
     if (anchors) {
       Object.keys(anchors).forEach(id => {
@@ -98,15 +99,19 @@ class Manager {
   }
 
   addListeners = () => {
-    window.addEventListener('scroll', this.scrollHandler, true);
-    window.addEventListener('hashchange', this.handleHashChange);
-    /* window.addEventListener('onpopstate', this.getBasePath); */
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', this.scrollHandler, true);
+      window.addEventListener('hashchange', this.handleHashChange);
+      /* window.addEventListener('onpopstate', this.getBasePath); */
+    }
   }
 
   removeListeners = () => {
-    window.removeEventListener('scroll', this.scrollHandler, true);
-    window.removeEventListener('hashchange', this.handleHashChange);
-    /* window.addEventListener('onpopstate', this.getBasePath); */
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('scroll', this.scrollHandler, true);
+      window.removeEventListener('hashchange', this.handleHashChange);
+      /* window.addEventListener('onpopstate', this.getBasePath); */
+    }
   }
 
   configure = (config) => {
@@ -150,10 +155,10 @@ class Manager {
     const urlHash = hash ? `#${hash}` : '';
 
     // check if this anchor is the current one
-    if (window.location.href.endsWith(`${urlName}${urlHash}`)) {
+    if (typeof window !== 'undefined' && window.location.href.endsWith(`${urlName}${urlHash}`)) {
       this.forceHashUpdate();
     }
-    if (window.location.pathname.endsWith(`/${urlName}`)) {
+    if (typeof window !== 'undefined' && window.location.pathname.endsWith(`/${urlName}`)) {
       this.basePathName = this.basePathName.replace(`/${urlName}`, '');
       if (this.basePathName === '') this.basePathName = '/';
     }
@@ -248,7 +253,7 @@ class Manager {
       const hash = getHash({manager: this});
       const runScrollingToSection = (delay = 0) => this.goToSection(hash, delay);
 
-      if (this.config.scrollOnImagesLoad && !this.imagesAreLoaded) {
+      if (typeof window !== 'undefined' && this.config.scrollOnImagesLoad && !this.imagesAreLoaded) {
         window.addEventListener(EVENT_IMAGES_LOADED, runScrollingToSection, false);
       } else {
         runScrollingToSection(this.config.scrollDelay);
@@ -262,7 +267,9 @@ class Manager {
 
     if (element) {
       setTimeout(() => {
-        const marginTop = ~~(element.currentStyle || window.getComputedStyle(element).marginTop.replace(/\D+/g, ''));
+        if (typeof window !== 'undefined') {
+          const marginTop = ~~(element.currentStyle || window.getComputedStyle(element).marginTop.replace(/\D+/g, ''));
+        }
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset;
 
