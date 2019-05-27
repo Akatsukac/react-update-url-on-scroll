@@ -50,7 +50,7 @@ class Manager {
           setTimeout(fireEvent, parseInt(this.config.scrollOnImagesLoad, 10));
         }
 
-        const imgs = document.images;
+        const imgs = typeof document !== 'undefined' ? document.images : '';
         const len = imgs.length;
         let counter = 0;
 
@@ -262,7 +262,7 @@ class Manager {
   }
 
   goToSection = (id, delay = 0) => {
-    const element = (this.anchors[id] ? this.anchors[id].component : null) || document.getElementById(id);
+    const element = typeof document !== 'undefined' ? (this.anchors[id] ? this.anchors[id].component : null) || document.getElementById(id) : '';
     const {offset} = this.config;
 
     if (element) {
