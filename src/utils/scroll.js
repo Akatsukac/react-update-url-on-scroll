@@ -8,7 +8,9 @@ export const scrollTo = (options) => {
       speed: options.behavior === 'smooth' ? 500 : 0,
     });
   } else {
-    window.scrollTo(options);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(options);
+    }
   }
 }
 
