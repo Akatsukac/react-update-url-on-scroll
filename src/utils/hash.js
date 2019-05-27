@@ -1,7 +1,7 @@
 import {createId} from './func';
 import {setMetaTags} from './meta';
 
-const basePath = `${window.location.origin}${window.location.pathname}`;
+const basePath = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : '';
 
 const getCurrentHash = () => {
   if (typeof window !== 'undefined') 
@@ -10,7 +10,7 @@ const getCurrentHash = () => {
 
 export const getHash = ({manager}) => {
   const {basePath} = manager;
-  const name = window.location.pathname.replace(basePath.replace(window.location.origin, ''), '').slice(1);
+  const name = typeof window !== 'undefined' ? window.location.pathname.replace(basePath.replace(window.location.origin, ''), '').slice(1) : '';
   const hash = getCurrentHash();
   return createId({name, hash});
 }
@@ -19,9 +19,10 @@ export const updateHash = ({anchor, affectHistory, manager}) => {
   const {hash, name, meta, exact} = anchor;
   const {basePath} = manager;
   const method = affectHistory ? 'pushState' : 'replaceState';
-  const newPath = `${name ? `${exact ? window.location.origin : basePath}/${name}` : basePath}${hash ? `#${hash}` : ''}`;
+  const newPath = typeof window !== 'undefined' ? `${name ? `${exact ? window.location.origin : basePath}/${name}` : basePath}${hash ? `#${hash}` : ''}` : '';
 
-  window.history[method](undefined, undefined, newPath);
+  if (typeof window !== 'undefined') 
+    window.history[method](undefined, undefined, newPath);
 
   if (meta) {
     setMetaTags(meta);
@@ -32,11 +33,12 @@ export const updateHash = ({anchor, affectHistory, manager}) => {
 
 // remove hash in url without affecting history or forcing reload
 export const removeHash = ({manager}) => {
-  window.history.replaceState(
-    undefined,
-    manager.defaultMetaTags.title,
-    manager ? manager.basePath : basePath
-  );
+  if (typeof window !== 'undefined') 
+    window.history.replaceState(
+      undefined,
+      manager.defaultMetaTags.title,
+      manager ? manager.basePath : basePath
+    );
 
   manager.setDefaultMetaTags();
 }
