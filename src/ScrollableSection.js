@@ -81,9 +81,10 @@ export class ScrollableLink extends Component {
       const name = pathParts[0].replace(/^\//, '') || null;
       const hash = pathParts[1] || null;
       const id = createId({name, hash});
+      console.log('id is ', id);
 
       if (Manager.anchors[id]) {
-        console.log('manager: ', Manager.anchors[id]);
+        console.log('manager: ', Manager);
         updateHash({
           anchor: Manager.anchors[id],
           affectHistory: false,
