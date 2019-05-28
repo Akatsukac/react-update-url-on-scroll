@@ -249,7 +249,7 @@ class Manager {
   handleHashChange = (e) => {
     this.basePath = this.getBasePath(this.anchors);
     console.log('base path ', this.basePath);
-    console.log('forced hash: ', forcedHash);
+    console.log('forced hash: ', this.forcedHash);
 
     if (this.forcedHash) {
       this.forcedHash = false;
