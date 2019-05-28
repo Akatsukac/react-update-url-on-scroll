@@ -248,7 +248,7 @@ class Manager {
 
   handleHashChange = (e) => {
     this.basePath = this.getBasePath(this.anchors);
-    console.log('base path ', basePath);
+    console.log('base path ', this.basePath);
     console.log('forced hash: ', forcedHash);
 
     if (this.forcedHash) {
@@ -274,12 +274,12 @@ class Manager {
       setTimeout(() => {
         if (typeof window !== 'undefined') {
           const marginTop = ~~(element.currentStyle || window.getComputedStyle(element).marginTop.replace(/\D+/g, ''));
+          console.log('margin top ', marginTop);
         }
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset;
         console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);
         console.log('element ', element);
-        console.log('margin top ', marginTop);
 
         scrollTo({
           top: offsetPosition,
