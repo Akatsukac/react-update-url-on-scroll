@@ -224,10 +224,12 @@ class Manager {
     const {offset, keepLastAnchorHash, affectHistory} = this.config;
     const nextAnchor = getBestAnchorGivenScrollLocation(this.anchors, -offset);
     const prevAnchor = getHash({manager: this});
+    console.log('scrolling to ', nextAnchor, prevAnchor);
 
     if (nextAnchor && prevAnchor !== nextAnchor) {
       this.forcedHash = true;
 
+      console.log('we forced a hash', this.anchors[nextAnchor]);
       updateHash({
         anchor: this.anchors[nextAnchor],
         affectHistory,
@@ -246,11 +248,14 @@ class Manager {
 
   handleHashChange = (e) => {
     this.basePath = this.getBasePath(this.anchors);
+    console.log('base path ', basePath);
+    console.log('forced hash: ', forcedHash);
 
     if (this.forcedHash) {
       this.forcedHash = false;
     } else {
       const hash = getHash({manager: this});
+      console.log('hash ', hash);
       const runScrollingToSection = (delay = 0) => this.goToSection(hash, delay);
 
       if (typeof window !== 'undefined' && this.config.scrollOnImagesLoad && !this.imagesAreLoaded) {
@@ -272,6 +277,9 @@ class Manager {
         }
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset;
+        console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);
+        console.log('element ', element);
+        console.log('margin top ', marginTop);
 
         scrollTo({
           top: offsetPosition,
