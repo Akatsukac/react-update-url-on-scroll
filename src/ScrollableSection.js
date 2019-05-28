@@ -83,6 +83,7 @@ export class ScrollableLink extends Component {
       const id = createId({name, hash});
 
       if (Manager.anchors[id]) {
+        console.log('manager: ', Manager.anchors[id]);
         updateHash({
           anchor: Manager.anchors[id],
           affectHistory: false,
