@@ -224,12 +224,10 @@ class Manager {
     const {offset, keepLastAnchorHash, affectHistory} = this.config;
     const nextAnchor = getBestAnchorGivenScrollLocation(this.anchors, -offset);
     const prevAnchor = getHash({manager: this});
-    console.log('scrolling to ', nextAnchor, prevAnchor);
 
     if (nextAnchor && prevAnchor !== nextAnchor) {
       this.forcedHash = true;
 
-      console.log('we forced a hash', this.anchors[nextAnchor]);
       updateHash({
         anchor: this.anchors[nextAnchor],
         affectHistory,
@@ -273,11 +271,8 @@ class Manager {
         if (typeof window !== 'undefined') {
           pageYOffset = window.pageYOffset;
         }
-        console.log("element attrs ", element);
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset + pageYOffset;
-        console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);
-        console.log('element ', element);
 
         scrollTo({
           top: offsetPosition,
