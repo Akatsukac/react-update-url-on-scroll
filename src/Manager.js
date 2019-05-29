@@ -248,14 +248,11 @@ class Manager {
 
   handleHashChange = (e) => {
     this.basePath = this.getBasePath(this.anchors);
-    console.log('base path ', this.basePath);
-    console.log('forced hash: ', this.forcedHash);
 
     if (this.forcedHash) {
       this.forcedHash = false;
     } else {
       const hash = getHash({manager: this});
-      console.log('hash ', hash);
       const runScrollingToSection = (delay = 0) => this.goToSection(hash, delay);
 
       if (typeof window !== 'undefined' && this.config.scrollOnImagesLoad && !this.imagesAreLoaded) {
@@ -274,8 +271,8 @@ class Manager {
       setTimeout(() => {
         if (typeof window !== 'undefined') {
           const marginTop = ~~(element.currentStyle || window.getComputedStyle(element).marginTop.replace(/\D+/g, ''));
-          console.log('margin top ', marginTop);
         }
+        console.log("element attrs ", element);
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset;
         console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);

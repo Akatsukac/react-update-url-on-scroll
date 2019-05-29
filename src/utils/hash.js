@@ -23,6 +23,7 @@ export const updateHash = ({anchor, affectHistory, manager}) => {
 
   if (typeof window !== 'undefined') 
     window.history[method](undefined, undefined, newPath);
+    console.log("window history: ", window.history);
 
   if (meta) {
     setMetaTags(meta);
