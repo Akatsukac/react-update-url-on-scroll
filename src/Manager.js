@@ -274,7 +274,6 @@ class Manager {
           pageYOffset = window.pageYOffset;
         }
         console.log("element attrs ", element);
-        element.pageYOffset
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset - pageYOffset;
         console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);
