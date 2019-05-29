@@ -269,12 +269,14 @@ class Manager {
 
     if (element) {
       setTimeout(() => {
+        let pageYOffset = 0;
         if (typeof window !== 'undefined') {
-          const marginTop = ~~(element.currentStyle || window.getComputedStyle(element).marginTop.replace(/\D+/g, ''));
+          pageYOffset = window.pageYOffset;
         }
         console.log("element attrs ", element);
+        element.pageYOffset
         const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition - offset;
+        const offsetPosition = elementPosition - offset - pageYOffset;
         console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);
         console.log('element ', element);
 
