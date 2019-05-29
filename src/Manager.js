@@ -275,7 +275,7 @@ class Manager {
         }
         console.log("element attrs ", element);
         const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition - offset + 2 * pageYOffset;
+        const offsetPosition = elementPosition - offset + pageYOffset;
         console.log('eleme pos, offset, offset pos ',elementPosition, offset, offsetPosition);
         console.log('element ', element);
 
