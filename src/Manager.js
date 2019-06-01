@@ -3,15 +3,6 @@ import { getBestAnchorGivenScrollLocation, getScrollTop, scrollTo } from './util
 import { getHash, updateHash, removeHash } from './utils/hash';
 import { setMetaTags, getDefaultMetaTags } from './utils/meta';
 
-if (!String.prototype.endsWith) {
-	String.prototype.endsWith = function(search, this_len) {
-		if (this_len === undefined || this_len > this.length) {
-			this_len = this.length;
-		}
-		return this.substring(this_len - search.length, this_len) === search;
-	};
-}
-
 const defaultConfig = {
   affectHistory: false,
   debounce: 100,
@@ -98,7 +89,7 @@ class Manager {
 
     if (anchors) {
       Object.keys(anchors).forEach(id => {
-        if (!anchors[id].exact && newBasePath.endsWith(anchors[id].name)) {
+        if (!anchors[id].exact && newBasePath.indexOf(anchors[id].name) !== -1) {
           newBasePath = newBasePath.replace(`/${anchors[id].name}`, '');
         }
       });
@@ -164,10 +155,10 @@ class Manager {
     const urlHash = hash ? `#${hash}` : '';
 
     // check if this anchor is the current one
-    if (typeof window !== 'undefined' && window.location.href.endsWith(`${urlName}${urlHash}`)) {
+    if (typeof window !== 'undefined' && window.location.href.indexOf(`${urlName}${urlHash}`) !== -1) {
       this.forceHashUpdate();
     }
-    if (typeof window !== 'undefined' && window.location.pathname.endsWith(`/${urlName}`)) {
+    if (typeof window !== 'undefined' && window.location.pathname.indexOf(`/${urlName}`) !== -1) {
       this.basePathName = this.basePathName.replace(`/${urlName}`, '');
       if (this.basePathName === '') this.basePathName = '/';
     }
